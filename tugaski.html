@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Enkripsi Teks</title>
+</head>
+<body>
+    <div class="container">
+        <form action="">
+        <h1>Enkripsi / Dekripsi</h1>
+        <input type="text" id="textInput" placeholder="Masukkan Teks">
+        <input type="password" id="keyInput" placeholder="Kata Kunci AES">
+        <button type="button" onclick="encrypt()">Enkripsi</button>
+        <button type="button" onclick="decrypt()">Dekripsi</button>
+    </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        function encrypt() {
+            var message = document.getElementById("textInput").value;
+            var key = document.getElementById("keyInput").value;
+            var encryptedAES = CryptoJS.AES.encrypt(message, key).toString();
+            localStorage.setItem('inputText', message);
+            localStorage.setItem('encryptedAES', encryptedAES);
+        
+            window.location.href = "output.html";
+        }
+        
+        function decrypt() {
+            var message = document.getElementById("textInput").value;
+            var key = document.getElementById("keyInput").value;
+        
+            try {
+                var decryptedBytes = CryptoJS.AES.decrypt(message, key);
+                var decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+                
+                localStorage.setItem('decryptedAES', decryptedText);
+                window.location.href = "output.html";
+            } catch (error) {
+                console.error("Decryption failed:", error.message);
+            }
+        }
+        
+    </script>
+</body>
+</html>
